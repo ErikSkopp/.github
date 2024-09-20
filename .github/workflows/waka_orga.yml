@@ -1,7 +1,6 @@
 name: Waka Orga
 
 on:
-  push:
   workflow_dispatch:
   schedule:
     - cron: "10 10 * * *"
