@@ -1,4 +1,4 @@
-name: Waka Repo
+name: Waka Repoxxxa
 
 on:
   push:
@@ -28,4 +28,5 @@ jobs:
           IGNORED_LANGUAGES: YAML JSON TOML
           COMMIT_MESSAGE: Updated waka-readme graph with new metrics
           TARGET_BRANCH: master
-          TARGET_PATH: Readme.md
+          TARGET_PATH: profile/Readme.md
+  
