@@ -19,7 +19,7 @@ jobs:
         run: |
             file_content=$(cat Readme.md)
             cd profile
-            echo "$file_content" > Readme.md
+            echo "$file_content" > README.md
 
       - name: Commit and Push changes
         env:
@@ -27,6 +27,6 @@ jobs:
         run: |
           git config --local user.name "$(echo 'ZXNrb3Bw' | base64 --decode)"
           git config --local user.email "$(echo 'c2tvcHAuZXJpa0BnbWFpbC5jb20=' | base64 --decode)"
-          git add profile/Readme.md
-          git commit -m "Update Readme.md"
+          git add profile/README.md
+          git commit -m "Update README.md"
           git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git
