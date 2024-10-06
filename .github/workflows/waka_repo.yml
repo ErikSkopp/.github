@@ -28,4 +28,3 @@ jobs:
           COMMIT_MESSAGE: Updated waka-readme graph with new metrics
           TARGET_BRANCH: master
           TARGET_PATH: Readme.md
-  

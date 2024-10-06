@@ -5,7 +5,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 5 * * *'  
+    - cron: "0 5 * * *"
 
 jobs:
   update-readme:
@@ -17,9 +17,9 @@ jobs:
 
       - name: Waka content
         run: |
-            file_content=$(cat Readme.md)
-            cd profile
-            echo "$file_content" > README.md
+          file_content=$(cat Readme.md)
+          cd profile
+          echo "$file_content" > README.md
 
       - name: Commit and Push changes
         env:
