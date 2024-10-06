@@ -1,9 +1,6 @@
 name: Merge waka readme in profile
 
 on:
-  push:
-    branches:
-      - main
   schedule:
     - cron: "0 5 * * *"
 
@@ -20,6 +17,7 @@ jobs:
           file_content=$(cat Readme.md)
           cd profile
           echo "$file_content" > README.md
+          rm -rf Readme.md
 
       - name: Commit and Push changes
         env:
