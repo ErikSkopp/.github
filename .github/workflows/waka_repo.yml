@@ -1,4 +1,4 @@
-name: Merge Repo in profile
+name: Waka Repo
 
 on:
   workflow_dispatch:
