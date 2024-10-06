@@ -1,0 +1,32 @@
+name: Update Readme
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 5 * * *'  
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Clear Readme.md
+        run: echo "" > profile/Readme.md
+
+      - name: Copy content from Root to Readme.md
+        run: cat * >> profile/Readme.md
+
+      - name: Commit and Push changes
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          git config --local user.name "$(echo 'ZXNrb3Bw' | base64 --decode)"
+          git config --local user.email "$(echo 'c2tvcHAuZXJpa0BnbWFpbC5jb20=' | base64 --decode)"
+          git add profile/Readme.md
+          git commit -m "Update Readme.md"
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git
