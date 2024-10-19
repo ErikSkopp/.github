@@ -17,9 +17,12 @@ jobs:
           content=$(curl -s "$url")
           waka_section=$(echo "$content" | sed -n '/<!--START_SECTION:waka-->/,<!--END_SECTION:waka-->/{/<!--START_SECTION:waka-->|<!--END_SECTION:waka-->/d;p}')
           
+          # Escape special characters and newlines for sed
+          waka_section_escaped=$(echo "$waka_section" | sed 's/[\/&]/\\&/g; s/$/\\n/g')
+
           # Insert the waka_section into the profile/README.md
           readme_file="profile/README.md"
-          sed -i '/<!--START_SECTION:waka-->/,<!--END_SECTION:waka-->/c\<!--START_SECTION:waka-->\n'"$waka_section"'\n<!--END_SECTION:waka-->' "$readme_file"
+          sed -i "/<!--START_SECTION:waka-->/,<!--END_SECTION:waka-->/c\<!--START_SECTION:waka-->\n$waka_section_escaped\n<!--END_SECTION:waka-->" "$readme_file"
 
       - name: Commit and Push changes
         env:
