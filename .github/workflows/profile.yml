@@ -14,10 +14,13 @@ jobs:
 
       - name: Waka content
         run: |
-          file_content=$(cat Readme.md)
-          cd profile
-          echo "$file_content" > README.md
-          rm -rf Readme.md
+          url="https://raw.githubusercontent.com/eskopp/eskopp/refs/heads/main/Readme.md"
+          content=$(curl -s "$url")
+          waka_section=$(echo "$content" | sed -n '/<!--START_SECTION:waka-->/,<!--END_SECTION:waka-->/{/<!--START_SECTION:waka-->|<!--END_SECTION:waka-->/d;p}')
+          
+          # Insert the waka_section into the profile/README.md
+          readme_file="profile/README.md"
+          sed -i '/<!--START_SECTION:waka-->/,<!--END_SECTION:waka-->/c\<!--START_SECTION:waka-->\n'"$waka_section"'\n<!--END_SECTION:waka-->' "$readme_file"
 
       - name: Commit and Push changes
         env:
@@ -26,5 +29,5 @@ jobs:
           git config --local user.name "$(echo 'ZXNrb3Bw' | base64 --decode)"
           git config --local user.email "$(echo 'c2tvcHAuZXJpa0BnbWFpbC5jb20=' | base64 --decode)"
           git add profile/README.md
-          git commit -m "Update README.md"
+          git commit -m "Update README.md with WakaTime stats"
           git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git
