@@ -2,6 +2,8 @@ name: Merge waka readme in profile
 
 on:
   push:
+    branches:
+      - main
 
 jobs:
   update-readme:
@@ -15,14 +17,15 @@ jobs:
         run: |
           url="https://raw.githubusercontent.com/eskopp/eskopp/refs/heads/main/Readme.md"
           content=$(curl -s "$url")
-          waka_section=$(echo "$content" | sed -n '/<!--START_SECTION:waka-->/,<!--END_SECTION:waka-->/{/<!--START_SECTION:waka-->|<!--END_SECTION:waka-->/d;p}')
-          
+          # Extract content from <!--START_SECTION:waka--> to the end of the file
+          waka_section=$(echo "$content" | sed -n '/<!--START_SECTION:waka-->/,$p')
+
           # Escape special characters and newlines for sed
           waka_section_escaped=$(echo "$waka_section" | sed 's/[\/&]/\\&/g; s/$/\\n/g')
 
-          # Insert the waka_section into the profile/README.md
+          # Insert the waka_section into the profile/README.md, replacing from <!--START_SECTION:waka--> to the end
           readme_file="profile/README.md"
-          sed -i "/<!--START_SECTION:waka-->/,<!--END_SECTION:waka-->/c\<!--START_SECTION:waka-->\n$waka_section_escaped\n<!--END_SECTION:waka-->" "$readme_file"
+          sed -i "/<!--START_SECTION:waka-->/,\$c\<!--START_SECTION:waka-->\n$waka_section_escaped" "$readme_file"
 
       - name: Commit and Push changes
         env:
