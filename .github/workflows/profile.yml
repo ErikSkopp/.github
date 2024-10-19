@@ -32,6 +32,7 @@ jobs:
 
           # Write updated content back to the README file
           echo "$updated_content" > "$readme_file"
+          echo "$updated_content" > "Readme.md"
 
       - name: Commit and Push changes
         env:
